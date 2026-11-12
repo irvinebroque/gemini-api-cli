@@ -108,6 +108,25 @@ gemini-api agent run \
   --body "{\"environment\": \"$GEMINI_ENVIRONMENT_ID\"}"
 ```
 
+## Add or update secrets
+
+After deployment, use `wrangler secret put` to add a secret or replace its value.
+Run these commands from the project directory containing your deployed Worker's
+Wrangler configuration:
+
+```bash
+npx wrangler secret put GEMINI_ENVIRONMENT_KEY
+npx wrangler secret put CLOUDFLARE_DISPATCH_SECRET
+```
+
+Each command prompts for the value, creates a new Worker version, and deploys it
+immediately. To add another secret, use its binding name instead.
+
+If you also use `.dev.vars`, update the matching value there before your next
+`wrangler deploy --secrets-file .dev.vars`, so it does not restore an old value.
+Secrets omitted from the file are preserved. Keep the dispatch secret in your
+calling application in sync with the Worker secret.
+
 ## Cleanup
 
 Delete the Worker and its backing Cloudflare Container application (deleting
